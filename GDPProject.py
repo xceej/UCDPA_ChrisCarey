@@ -35,6 +35,9 @@ print(gdp2019)
 # Dropping OECD, OECDE, EU28, EU27_2020, EA19 so that we only have individual countries
 gdp2019 = gdp2019.drop(index=[3798, 3874, 3723, 4810, 4173])
 pd.options.display.float_format = '{:,.2f}'.format
+gdp2019.sort_values('Value', inplace=True)
+gdp2019['rank'] = gdp2019['Value'].rank(ascending=0)
+print(gdp2019)
 
 ax = gdp2019.plot(x='LOCATION', y='Value', rot=60, kind='bar', title='GDP per country 2019 in millions USD')
 ax.yaxis.set_major_formatter(mpl.ticker.StrMethodFormatter('{x:,.0f}'))
@@ -150,5 +153,3 @@ quickplot(ax, gdp_all['TIME'], gdp_all[('mean', 'Value')], 'black', 'Ireland GDP
 ax.yaxis.set_major_formatter(mpl.ticker.StrMethodFormatter('{x:,.0f}'))
 ax.legend()
 plt.show()
-
-# quickplot(axes, x, y, color, title, xlabel, ylabel, label)
