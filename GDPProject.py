@@ -149,3 +149,8 @@ plt.show()
 gdp_all['Median_diffs'] = gdp_all[('median', 'Value')]-gdp_all['Value']
 gdp_all['Median_diffs%']=gdp_all['Median_diffs']/gdp_all['Value']*100
 print(gdp_all)
+
+fig, ax = plt.subplots()
+quickplot(ax, gdp_all['TIME'], gdp_all['Median_diffs%'], 'green', 'Ireland GDP vs Median GDP', 'Year', '% Diffs', 'Diffs to Median as % of IRL GDP')
+ax.legend()
+plt.show()
