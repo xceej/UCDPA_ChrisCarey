@@ -50,7 +50,6 @@ plt.show()
 # Therefore subset for 1970 & 2019 figures
 gdp1970 = gdp_data[gdp_data["TIME"] == 1970].copy()
 gdp2019 = gdp_data[gdp_data["TIME"] == 2019].copy()
-#### MENTION IN THE REPORT THAT THE MERGE HERE IS ONLY ON COUNTRIES THAT HAVE DATA FOR BOTH POINTS
 gdp_growth = gdp1970.merge(gdp2019, on="LOCATION", suffixes=['_1970', '_2019'])
 
 # Create function to calc average returns
@@ -106,7 +105,7 @@ gdp_ire = gdp_data[gdp_data['LOCATION'] == "IRL"].copy()
 print(gdp_ire.info())
 
 # Create dict of years & tax rates & combine with Ireland DF
-taxrate_dict = {'TIME': [1994, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003],
+taxrate_dict = {'TIME': [1970, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003],
                 'TaxRate': [40, 38, 36, 32, 28, 24, 20, 16, 12.5]}
 
 taxrate_df = pd.DataFrame(taxrate_dict)
@@ -116,16 +115,10 @@ gdp_ire = gdp_ire.merge(taxrate_df, on='TIME', how='left')
 gdp_ire = gdp_ire.fillna(method='ffill', axis=0)
 print(gdp_ire)
 
-# slicing from 1994 onwards as don't have tax data prior to this
-gdp_ire_since94 = gdp_ire[24:]
-print("GDP Ireland since 94 DF:")
-print(gdp_ire_since94)
-
-
 fig, ax = plt.subplots()
-quickplot(ax, gdp_ire_since94["TIME"], gdp_ire_since94["Value"], 'red', 'Ireland GDP Growth vs Irish Corporate Tax Rate', 'Year', 'GDP in millions USD', '')
+quickplot(ax, gdp_ire["TIME"], gdp_ire["Value"], 'red', 'Ireland GDP Growth vs Irish Corporate Tax Rate', 'Year', 'GDP in millions USD', '')
 ax2 = ax.twinx()
-quickplot(ax2, gdp_ire_since94["TIME"], gdp_ire_since94["TaxRate"], 'blue', 'Ireland GDP Growth vs Irish Corporate Tax Rate', 'Year', 'Irish Tax Rate %', '')
+quickplot(ax2, gdp_ire["TIME"], gdp_ire["TaxRate"], 'blue', 'Ireland GDP Growth vs Irish Corporate Tax Rate', 'Year', 'Irish Tax Rate %', '')
 ax.yaxis.set_major_formatter(mpl.ticker.StrMethodFormatter('{x:,.0f}'))
 plt.show()
 
@@ -139,8 +132,6 @@ for i in ['OECD', 'OECDE', 'EU28', 'EU27_2020', 'EA19']:
 gdp_totals = gdp_data.pivot_table(values="Value", index="TIME", aggfunc=[np.sum, np.mean, np.median])
 pd.options.display.float_format = '{:,.2f}'.format
 print(gdp_totals)
-
-######### maybe need to delete rows?
 
 gdp_ire.drop(gdp_ire[gdp_ire['TIME'] == 2020].index, inplace=True)
 gdp_all = gdp_ire.merge(gdp_totals, on='TIME', suffixes=['_IRE', '_TOTALS'], how='left')
