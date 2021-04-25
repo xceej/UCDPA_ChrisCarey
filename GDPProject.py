@@ -135,12 +135,17 @@ print(gdp_totals)
 
 gdp_ire.drop(gdp_ire[gdp_ire['TIME'] == 2020].index, inplace=True)
 gdp_all = gdp_ire.merge(gdp_totals, on='TIME', suffixes=['_IRE', '_TOTALS'], how='left')
-print(gdp_all.tail())
+print(gdp_all)
 
 fig, ax = plt.subplots()
-quickplot(ax, gdp_all['TIME'], gdp_all['Value'], 'red', 'Ireland GDP vs Total World', 'Year', 'GDP in millions', 'Ireland GDP')
-quickplot(ax, gdp_all['TIME'], gdp_all[('median', 'Value')], 'blue', 'Ireland GDP vs Total World', 'Year', 'GDP in millions', 'Median GDP')
-quickplot(ax, gdp_all['TIME'], gdp_all[('mean', 'Value')], 'black', 'Ireland GDP vs Total World', 'Year', 'GDP in millions', 'Mean GDP')
+# only the last of the common plotting factors (ie title & x,y labels) need be populated
+quickplot(ax, gdp_all['TIME'], gdp_all['Value'], 'red', '', '', '', 'Ireland GDP')
+quickplot(ax, gdp_all['TIME'], gdp_all[('median', 'Value')], 'blue', '', '', '', 'Median Total GDP')
+quickplot(ax, gdp_all['TIME'], gdp_all[('mean', 'Value')], 'black', 'Ireland GDP vs Average GDP', 'Year', 'GDP in millions USD', 'Mean Total GDP')
 ax.yaxis.set_major_formatter(mpl.ticker.StrMethodFormatter('{x:,.0f}'))
 ax.legend()
 plt.show()
+
+gdp_all['Median_diffs'] = gdp_all[('median', 'Value')]-gdp_all['Value']
+gdp_all['Median_diffs%']=gdp_all['Median_diffs']/gdp_all['Value']*100
+print(gdp_all)
