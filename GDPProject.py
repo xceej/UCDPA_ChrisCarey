@@ -39,8 +39,9 @@ gdp2019.sort_values('Value', inplace=True)
 gdp2019['rank'] = gdp2019['Value'].rank(ascending=0)
 print(gdp2019)
 
-ax = gdp2019.plot(x='LOCATION', y='Value', rot=60, kind='bar', title='GDP per country 2019 in millions USD')
+ax = gdp2019.plot(x='LOCATION', y='Value', rot=60, kind='bar', title='GDP per country 2019, in millions USD')
 ax.yaxis.set_major_formatter(mpl.ticker.StrMethodFormatter('{x:,.0f}'))
+ax.annotate("IRL - 29th largest GDP", xy=[21, 450000], xytext=(12, 3500000), arrowprops={'arrowstyle': '->', 'color': 'grey'})
 plt.show()
 
 
@@ -95,6 +96,7 @@ quickplot(ax, gdp_ire.index, gdp_ire['Value'], 'red', 'Ireland GDP Growth', 'Yea
 ax2 = ax.twinx()
 quickplot(ax2, gdp_ire.index, gdp_ire["Annual%"], 'blue', 'Ireland GDP Growth', 'Year', 'Annual % Growth', '')
 ax.yaxis.set_major_formatter(mpl.ticker.StrMethodFormatter('{x:,.0f}'))
+plt.axhline(y=0, color='grey', linestyle='--', alpha=0.3)
 plt.show()
 
 
