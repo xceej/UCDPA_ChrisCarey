@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib as mpl
-# import seaborn as sns
+
 
 gdp_data = pd.read_csv("GDP Hist.csv")
 print(gdp_data.head())
@@ -41,7 +41,8 @@ print(gdp2019)
 
 ax = gdp2019.plot(x='LOCATION', y='Value', rot=60, kind='bar', title='GDP per country 2019, in millions USD')
 ax.yaxis.set_major_formatter(mpl.ticker.StrMethodFormatter('{x:,.0f}'))
-ax.annotate("IRL - 29th largest GDP", xy=[21, 450000], xytext=(12, 3500000), arrowprops={'arrowstyle': '->', 'color': 'grey'})
+ax.annotate("IRL - 29th largest GDP", xy=[21, 450000], xytext=(12, 3500000), arrowprops={'arrowstyle': '->',
+                                                                                         'color': 'grey'})
 plt.show()
 
 
@@ -118,9 +119,11 @@ gdp_ire = gdp_ire.fillna(method='ffill', axis=0)
 print(gdp_ire)
 
 fig, ax = plt.subplots()
-quickplot(ax, gdp_ire["TIME"], gdp_ire["Value"], 'red', 'Ireland GDP Growth vs Irish Corporate Tax Rate', 'Year', 'GDP in millions USD', '')
+quickplot(ax, gdp_ire["TIME"], gdp_ire["Value"], 'red', 'Ireland GDP Growth vs Irish Corporate Tax Rate', 'Year',
+          'GDP in millions USD', '')
 ax2 = ax.twinx()
-quickplot(ax2, gdp_ire["TIME"], gdp_ire["TaxRate"], 'blue', 'Ireland GDP Growth vs Irish Corporate Tax Rate', 'Year', 'Irish Tax Rate %', '')
+quickplot(ax2, gdp_ire["TIME"], gdp_ire["TaxRate"], 'blue', 'Ireland GDP Growth vs Irish Corporate Tax Rate', 'Year',
+          'Irish Tax Rate %', '')
 ax.yaxis.set_major_formatter(mpl.ticker.StrMethodFormatter('{x:,.0f}'))
 plt.show()
 
@@ -143,7 +146,8 @@ fig, ax = plt.subplots()
 # only the last of the common plotting factors (ie title & x,y labels) need be populated
 quickplot(ax, gdp_all['TIME'], gdp_all['Value'], 'red', '', '', '', 'Ireland GDP')
 quickplot(ax, gdp_all['TIME'], gdp_all[('median', 'Value')], 'blue', '', '', '', 'Median Total GDP')
-quickplot(ax, gdp_all['TIME'], gdp_all[('mean', 'Value')], 'black', 'Ireland GDP vs Average GDP', 'Year', 'GDP in millions USD', 'Mean Total GDP')
+quickplot(ax, gdp_all['TIME'], gdp_all[('mean', 'Value')], 'black', 'Ireland GDP vs Average GDP', 'Year',
+          'GDP in millions USD', 'Mean Total GDP')
 ax.yaxis.set_major_formatter(mpl.ticker.StrMethodFormatter('{x:,.0f}'))
 ax.legend()
 plt.show()
@@ -153,6 +157,7 @@ gdp_all['Median_diffs%']=gdp_all['Median_diffs']/gdp_all['Value']*100
 print(gdp_all)
 
 fig, ax = plt.subplots()
-quickplot(ax, gdp_all['TIME'], gdp_all['Median_diffs%'], 'green', 'Ireland GDP vs Median GDP', 'Year', '% Diffs', 'Diffs to Median as % of IRL GDP')
+quickplot(ax, gdp_all['TIME'], gdp_all['Median_diffs%'], 'green', 'Ireland GDP vs Median GDP', 'Year', '% Diffs',
+          'Diffs to Median as % of IRL GDP')
 ax.legend()
 plt.show()
